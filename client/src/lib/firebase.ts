@@ -2,6 +2,13 @@ import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, signInWithRedirect, signOut, onAuthStateChanged } from "firebase/auth";
 import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
 
+// Debug: Log environment variables
+console.log('Firebase Environment Variables:', {
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY ? 'Set' : 'Missing',
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID ? 'Set' : 'Missing',
+  appId: import.meta.env.VITE_FIREBASE_APP_ID ? 'Set' : 'Missing'
+});
+
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: `${import.meta.env.VITE_FIREBASE_PROJECT_ID}.firebaseapp.com`,
