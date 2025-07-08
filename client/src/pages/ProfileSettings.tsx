@@ -5,8 +5,12 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Camera, Save, LogOut } from 'lucide-react';
+import { Camera, Save, LogOut, CalendarIcon } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { Calendar } from '@/components/ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { format } from 'date-fns';
+import { cn } from '@/lib/utils';
 import { useAuth } from '@/contexts/AuthContext';
 import { firestoreService, UserProfile } from '@/lib/firestoreService';
 import { Timestamp } from 'firebase/firestore';
@@ -14,7 +18,7 @@ import { Timestamp } from 'firebase/firestore';
 const ProfileSettings = () => {
   const { toast } = useToast();
   const { user, signOut } = useAuth();
-  const [dateOfBirth, setDateOfBirth] = useState<string>('15/01/90');
+  const [dateOfBirth, setDateOfBirth] = useState<Date>(new Date(1990, 0, 15));
   const [profileData, setProfileData] = useState({
     name: user?.displayName || '',
     email: user?.email || '',
@@ -45,19 +49,14 @@ const ProfileSettings = () => {
             sport: 'Running',
             profileImage: profile.profileImage
           });
-          // Convert stored date to DD/MM/YY format
-          const date = new Date(profile.dateOfBirth);
-          const day = String(date.getDate()).padStart(2, '0');
-          const month = String(date.getMonth() + 1).padStart(2, '0');
-          const year = String(date.getFullYear()).slice(-2);
-          setDateOfBirth(`${day}/${month}/${year}`);
+          setDateOfBirth(new Date(profile.dateOfBirth));
         } else {
           // Create initial profile if doesn't exist
           const newProfile = {
             uid: user.uid,
             name: user.displayName || '',
             email: user.email || '',
-            dateOfBirth: convertToISODate(dateOfBirth),
+            dateOfBirth: format(dateOfBirth, 'yyyy-MM-dd'),
             bodyWeight: '75',
             profileImage: user.photoURL || ''
           };
@@ -79,44 +78,18 @@ const ProfileSettings = () => {
     loadUserProfile();
   }, [user, toast]);
 
-  // Helper functions for date conversion
-  const convertToISODate = (ddmmyy: string): string => {
-    try {
-      const [day, month, year] = ddmmyy.split('/');
-      const fullYear = year.length === 2 ? (parseInt(year) > 30 ? `19${year}` : `20${year}`) : year;
-      return `${fullYear}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
-    } catch (error) {
-      return '1990-01-15'; // fallback
-    }
-  };
-
-  const parseDateFromString = (ddmmyy: string): Date => {
-    try {
-      const [day, month, year] = ddmmyy.split('/');
-      const fullYear = year.length === 2 ? (parseInt(year) > 30 ? parseInt(`19${year}`) : parseInt(`20${year}`)) : parseInt(year);
-      return new Date(fullYear, parseInt(month) - 1, parseInt(day));
-    } catch (error) {
-      return new Date(1990, 0, 15); // fallback
-    }
-  };
-
   // Calculate age when date of birth changes
   useEffect(() => {
-    const calculateAge = (birthDateString: string) => {
-      try {
-        const birthDate = parseDateFromString(birthDateString);
-        const today = new Date();
-        let age = today.getFullYear() - birthDate.getFullYear();
-        const monthDiff = today.getMonth() - birthDate.getMonth();
-        
-        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-          age--;
-        }
-        
-        return age.toString();
-      } catch (error) {
-        return '25'; // fallback
+    const calculateAge = (birthDate: Date) => {
+      const today = new Date();
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const monthDiff = today.getMonth() - birthDate.getMonth();
+      
+      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
       }
+      
+      return age.toString();
     };
 
     setProfileData(prev => ({
@@ -154,7 +127,7 @@ const ProfileSettings = () => {
       const updatedProfile = {
         name: profileData.name,
         email: profileData.email,
-        dateOfBirth: convertToISODate(dateOfBirth),
+        dateOfBirth: format(dateOfBirth, 'yyyy-MM-dd'),
         bodyWeight: profileData.weight,
         profileImage: profileData.profileImage
       };
@@ -281,16 +254,35 @@ const ProfileSettings = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
                 <label className="block text-white/80 text-sm font-medium mb-2">
-                  Date of Birth (DD/MM/YY)
+                  Date of Birth
                 </label>
-                <Input
-                  value={dateOfBirth}
-                  onChange={(e) => setDateOfBirth(e.target.value)}
-                  className="bg-white/10 border-white/20 text-white placeholder:text-white/50"
-                  placeholder="15/01/90"
-                  pattern="\d{2}/\d{2}/\d{2}"
-                  title="Please enter date in DD/MM/YY format"
-                />
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className={cn(
+                        "w-full justify-start text-left font-normal bg-white/10 border-white/20 text-white hover:bg-white/10",
+                        !dateOfBirth && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {dateOfBirth ? format(dateOfBirth, "dd/MM/yyyy") : <span>Pick a date</span>}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={dateOfBirth}
+                      onSelect={(newDate) => newDate && setDateOfBirth(newDate)}
+                      disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
+                      initialFocus
+                      captionLayout="dropdown-buttons"
+                      fromYear={1900}
+                      toYear={new Date().getFullYear()}
+                      className="p-3"
+                    />
+                  </PopoverContent>
+                </Popover>
               </div>
               <div>
                 <label className="block text-white/80 text-sm font-medium mb-2">
