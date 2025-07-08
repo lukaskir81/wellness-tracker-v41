@@ -47,15 +47,17 @@ export const analyzeWellnessData = async (data: WellnessData): Promise<string> =
     As a comprehensive wellness coach, provide a detailed analysis of the following wellness data with specific, actionable recommendations:
     
     Sleep Hours: ${data.sleepHours} hours
-    Sleep Quality: ${data.sleepQuality}/10 (higher is better)
-    Energy Level: ${data.energyLevel}/10 (higher is better)
-    Mood: ${data.mood}/10 (higher is better)
-    Stress Level: ${data.stress}/10 (LOWER is better - less stress is positive)
-    Lower Body Soreness: ${data.lowerBodySoreness}/10 (LOWER is better - less soreness is positive)
-    Upper Body Soreness: ${data.upperBodySoreness}/10 (LOWER is better - less soreness is positive)
+    Sleep Quality: ${data.sleepQuality}/10 (higher values 7-10 are POSITIVE)
+    Energy Level: ${data.energyLevel}/10 (higher values 7-10 are POSITIVE)
+    Mood: ${data.mood}/10 (higher values 7-10 are POSITIVE)
+    Stress Level: ${data.stress}/10 (lower values 1-4 are NEGATIVE - indicating high stress problems)
+    Lower Body Soreness: ${data.lowerBodySoreness}/10 (lower values 1-4 are NEGATIVE - indicating significant soreness problems)
+    Upper Body Soreness: ${data.upperBodySoreness}/10 (lower values 1-4 are NEGATIVE - indicating significant soreness problems)
     Notes: "${data.notes}"
     
-    IMPORTANT: For stress and soreness metrics, LOW values (1-3) are EXCELLENT and indicate good recovery. HIGH values (8-10) indicate problems that need attention.
+    IMPORTANT SCORING INTERPRETATION:
+    - Sleep Quality, Energy, Mood: HIGH scores (7-10) = GOOD/POSITIVE, LOW scores (1-4) = CONCERNING
+    - Stress, Soreness: LOW scores (1-4) = BAD/NEGATIVE (high stress/pain), HIGH scores (7-10) = GOOD/POSITIVE (low stress/pain)
     
     Please provide:
     1. A detailed assessment of current wellness state
