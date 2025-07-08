@@ -92,9 +92,10 @@ const ProfileSettings = () => {
       return age.toString();
     };
 
+    const newAge = calculateAge(dateOfBirth);
     setProfileData(prev => ({
       ...prev,
-      age: calculateAge(dateOfBirth)
+      age: newAge
     }));
   }, [dateOfBirth]);
 
@@ -178,6 +179,50 @@ const ProfileSettings = () => {
   return (
     <Layout title="Profile Settings">
       <div className="space-y-6">
+        {/* Profile Summary Section */}
+        <Card className="glass-dark p-6">
+          <div className="flex items-center gap-4">
+            <div className="relative">
+              <Avatar className="h-20 w-20">
+                <AvatarImage src={profileData.profileImage} />
+                <AvatarFallback className="text-xl bg-gradient-to-br from-purple-500 to-blue-500 text-white">
+                  {profileData.name.split(' ').map(n => n[0]).join('')}
+                </AvatarFallback>
+              </Avatar>
+            </div>
+            <div className="flex-1">
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <label className="text-white/70 text-sm">Full Name</label>
+                    <p className="text-white font-medium text-lg">{profileData.name}</p>
+                  </div>
+                  <Button
+                    size="sm"
+                    className="bg-teal-600 hover:bg-teal-700 text-white"
+                  >
+                    <span className="text-sm">✏️ Edit</span>
+                  </Button>
+                </div>
+                <div className="flex gap-6">
+                  <div>
+                    <label className="text-white/70 text-sm">Date of Birth</label>
+                    <p className="text-white">{format(dateOfBirth, 'yyyy-MM-dd')}</p>
+                  </div>
+                  <div>
+                    <label className="text-white/70 text-sm">Age</label>
+                    <p className="text-white font-medium">{profileData.age}</p>
+                  </div>
+                </div>
+                <div>
+                  <label className="text-white/70 text-sm">Body Weight</label>
+                  <p className="text-white">{profileData.weight} kg</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Card>
+
         {/* Profile Picture Section */}
         <Card className="glass-dark p-6">
           <h3 className="text-white font-semibold text-lg mb-4 flex items-center gap-2">
