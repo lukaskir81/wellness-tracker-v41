@@ -225,19 +225,22 @@ const Trends = () => {
 
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={currentWellnessData}>
+              <LineChart data={currentWellnessData} margin={{ left: 10, right: 30, top: 20, bottom: 20 }}>
                 <XAxis 
                   dataKey="date" 
                   axisLine={false}
                   tickLine={false}
-                  tick={{ fill: 'rgba(255, 255, 255, 0.6)', fontSize: 12 }}
+                  tick={{ fill: 'rgba(255, 255, 255, 0.6)', fontSize: 10 }}
+                  angle={-45}
+                  textAnchor="end"
+                  height={60}
                 />
                 <YAxis 
                   axisLine={false}
                   tickLine={false}
                   tick={{ fill: 'rgba(255, 255, 255, 0.6)', fontSize: 12 }}
                   domain={[0, 10]}
-                  width={35}
+                  width={25}
                 />
                 <Tooltip
                   contentStyle={{
@@ -323,19 +326,22 @@ const Trends = () => {
           </h3>
           <div className="h-48">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={recoveryData}>
+              <LineChart data={recoveryData} margin={{ left: 10, right: 30, top: 20, bottom: 20 }}>
                 <XAxis 
                   dataKey="date" 
                   axisLine={false}
                   tickLine={false}
-                  tick={{ fill: 'rgba(255, 255, 255, 0.6)', fontSize: 12 }}
+                  tick={{ fill: 'rgba(255, 255, 255, 0.6)', fontSize: 10 }}
+                  angle={-45}
+                  textAnchor="end"
+                  height={60}
                 />
                 <YAxis 
                   axisLine={false}
                   tickLine={false}
                   tick={{ fill: 'rgba(255, 255, 255, 0.6)', fontSize: 12 }}
                   domain={[0, 150]}
-                  width={35}
+                  width={25}
                 />
                 <Tooltip
                   contentStyle={{
@@ -469,18 +475,21 @@ const Trends = () => {
           </div>
           <div className="h-48">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={getCurrentFitnessData()}>
+              <BarChart data={getCurrentFitnessData()} margin={{ left: 10, right: 30, top: 20, bottom: 20 }}>
                 <XAxis 
                   dataKey="date" 
                   axisLine={false}
                   tickLine={false}
-                  tick={{ fill: 'rgba(255, 255, 255, 0.6)', fontSize: 12 }}
+                  tick={{ fill: 'rgba(255, 255, 255, 0.6)', fontSize: 10 }}
+                  angle={-45}
+                  textAnchor="end"
+                  height={60}
                 />
                 <YAxis 
                   axisLine={false}
                   tickLine={false}
                   tick={{ fill: 'rgba(255, 255, 255, 0.6)', fontSize: 12 }}
-                  width={35}
+                  width={25}
                 />
                 <Tooltip
                   contentStyle={{
