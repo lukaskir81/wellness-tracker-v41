@@ -70,7 +70,7 @@ const Dashboard = () => {
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-3">
             <div className="w-16 h-12 bg-transparent rounded-lg flex items-center justify-center">
-              <img src="https://static.wixstatic.com/media/9a2559_83c8f7fd946d46d3adc50d49005f1e86~mv2.png/v1/fill/w_336,h_124,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/GPC%20Performance%20Logo%20Transparent.png" alt="GPC Performance Logo" className="w-full h-full object-contain" />
+              <img src="https://static.wixstatic.com/media/58fc31_00095fef7fc04600b9031712060a631f~mv2.png/v1/fill/w_128,h_144,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/GPC%20Logo%20-%20PNG%20Large_edited.png" alt="GPC Performance Logo" className="w-full h-full object-contain" />
             </div>
             <div>
               <h2 className="text-white font-bold text-xl">Improve conditioning</h2>
@@ -213,7 +213,6 @@ const Dashboard = () => {
           </Card>
         )}
       </div>
-
       {/* Dialogs */}
       <ContactDialog 
         open={contactDialogOpen} 
