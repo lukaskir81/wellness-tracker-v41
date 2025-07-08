@@ -1,11 +1,15 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Calendar } from '@/components/ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { useToast } from '@/hooks/use-toast';
-import { Camera, Save } from 'lucide-react';
+import { Camera, Save, CalendarIcon } from 'lucide-react';
+import { format } from 'date-fns';
+import { cn } from '@/lib/utils';
 
 interface EditProfileDialogProps {
   open: boolean;
@@ -22,6 +26,35 @@ interface EditProfileDialogProps {
 const EditProfileDialog = ({ open, onOpenChange, profileData, onSave }: EditProfileDialogProps) => {
   const { toast } = useToast();
   const [formData, setFormData] = useState(profileData);
+  const [dateOfBirth, setDateOfBirth] = useState<Date>(new Date(profileData.dateOfBirth || '1990-01-15'));
+  const [age, setAge] = useState<number>(25);
+
+  // Calculate age when date changes
+  useEffect(() => {
+    const calculateAge = (birthDate: Date) => {
+      const today = new Date();
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const monthDiff = today.getMonth() - birthDate.getMonth();
+      
+      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+      
+      return age;
+    };
+
+    setAge(calculateAge(dateOfBirth));
+    setFormData(prev => ({
+      ...prev,
+      dateOfBirth: format(dateOfBirth, 'yyyy-MM-dd')
+    }));
+  }, [dateOfBirth]);
+
+  // Update local state when props change
+  useEffect(() => {
+    setFormData(profileData);
+    setDateOfBirth(new Date(profileData.dateOfBirth || '1990-01-15'));
+  }, [profileData]);
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -92,15 +125,35 @@ const EditProfileDialog = ({ open, onOpenChange, profileData, onSave }: EditProf
 
           <div>
             <label className="block text-white/80 text-sm font-medium mb-2">
-              Date of Birth
+              Date of Birth (Age: {age})
             </label>
-            <Input
-              value={formData.dateOfBirth}
-              onChange={(e) => setFormData(prev => ({ ...prev, dateOfBirth: e.target.value }))}
-              className="bg-white/10 border-white/20 text-white placeholder:text-white/50"
-              placeholder="Jan 15, 1990"
-              required
-            />
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  className={cn(
+                    "w-full justify-start text-left font-normal bg-white/10 border-white/20 text-white hover:bg-white/10",
+                    !dateOfBirth && "text-muted-foreground"
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  {dateOfBirth ? format(dateOfBirth, "dd/MM/yyyy") : <span>Pick a date</span>}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                  mode="single"
+                  selected={dateOfBirth}
+                  onSelect={(newDate) => newDate && setDateOfBirth(newDate)}
+                  disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
+                  initialFocus
+                  captionLayout="dropdown-buttons"
+                  fromYear={1900}
+                  toYear={new Date().getFullYear()}
+                  className="p-3"
+                />
+              </PopoverContent>
+            </Popover>
           </div>
 
           <div>
