@@ -47,13 +47,15 @@ export const analyzeWellnessData = async (data: WellnessData): Promise<string> =
     As a comprehensive wellness coach, provide a detailed analysis of the following wellness data with specific, actionable recommendations:
     
     Sleep Hours: ${data.sleepHours} hours
-    Sleep Quality: ${data.sleepQuality}/10
-    Energy Level: ${data.energyLevel}/10
-    Mood: ${data.mood}/10
-    Stress Level: ${data.stress}/10
-    Lower Body Soreness: ${data.lowerBodySoreness}/10
-    Upper Body Soreness: ${data.upperBodySoreness}/10
+    Sleep Quality: ${data.sleepQuality}/10 (higher is better)
+    Energy Level: ${data.energyLevel}/10 (higher is better)
+    Mood: ${data.mood}/10 (higher is better)
+    Stress Level: ${data.stress}/10 (LOWER is better - less stress is positive)
+    Lower Body Soreness: ${data.lowerBodySoreness}/10 (LOWER is better - less soreness is positive)
+    Upper Body Soreness: ${data.upperBodySoreness}/10 (LOWER is better - less soreness is positive)
     Notes: "${data.notes}"
+    
+    IMPORTANT: For stress and soreness metrics, LOW values (1-3) are EXCELLENT and indicate good recovery. HIGH values (8-10) indicate problems that need attention.
     
     Please provide:
     1. A detailed assessment of current wellness state

@@ -112,6 +112,10 @@ This is a comprehensive fitness and wellness tracking application built for GPC 
 
 ```
 Changelog:
+- July 08, 2025. Fixed AI wellness analysis to correctly interpret stress and soreness metrics (low values = positive)
+- July 08, 2025. Enhanced Profile Settings with calendar date picker and automatic age calculation
+- July 08, 2025. Fixed Wellness Logs display issues with Firebase data integration
+- July 08, 2025. Improved Trends section graph formatting with better axis positioning and angled date labels
 - July 06, 2025. Firebase integration with authentication and Firestore data storage
 - July 04, 2025. Initial setup
 ```
