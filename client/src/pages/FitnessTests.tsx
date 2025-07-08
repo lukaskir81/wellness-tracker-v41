@@ -76,7 +76,7 @@ const FitnessTests = () => {
     <Layout title="Fitness Tests">
       <div className="space-y-6">
         <Card className="glass p-6">
-          <h2 className="text-gray-800 font-bold text-xl mb-6">Log Fitness Tests</h2>
+          <h2 className="font-bold text-xl mb-6 text-[#989eab]">Log Fitness Tests</h2>
           
           {/* Date Selection */}
           <div className="space-y-4">
