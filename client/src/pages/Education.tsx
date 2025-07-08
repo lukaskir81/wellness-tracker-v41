@@ -70,7 +70,7 @@ const Education = () => {
               </Card>)}
           </div>
           
-          <p className="text-gray-600 leading-relaxed mt-6">
+          <p className="leading-relaxed mt-6 text-[#f5f9fc]">
             Access our comprehensive library of training articles, performance insights, and coaching resources to enhance your athletic development.
           </p>
         </Card>
