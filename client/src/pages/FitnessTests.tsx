@@ -109,7 +109,7 @@ const FitnessTests = () => {
 
             {/* Category Selection */}
             <div>
-              <label className="block text-gray-700 text-sm font-medium mb-2">Category</label>
+              <label className="block text-sm font-medium mb-2 text-[#f5f9fc]">Category</label>
               <Select value={selectedCategory} onValueChange={handleCategoryChange}>
                 <SelectTrigger className="w-full bg-gray-800 border-gray-700 text-white">
                   <SelectValue placeholder="Select category" />
