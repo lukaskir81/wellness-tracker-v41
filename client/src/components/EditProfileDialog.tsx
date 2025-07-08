@@ -121,7 +121,7 @@ const EditProfileDialog = ({ open, onOpenChange, profileData, onSave }: EditProf
               type="button"
               variant="outline"
               onClick={() => onOpenChange(false)}
-              className="flex-1 border-white/20 text-white hover:bg-white/10"
+              className="flex-1 border-white/20 text-white hover:bg-white/10 bg-[#3c445c]"
             >
               Cancel
             </Button>
