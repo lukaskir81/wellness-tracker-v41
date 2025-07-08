@@ -81,7 +81,7 @@ const FitnessTests = () => {
           {/* Date Selection */}
           <div className="space-y-4">
             <div>
-              <label className="block text-gray-700 text-sm font-medium mb-2">Date</label>
+              <label className="block text-sm font-medium mb-2 text-[#f5f9fc]">Date</label>
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
