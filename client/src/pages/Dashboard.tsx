@@ -3,9 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { Menu, Settings, TrendingUp, Heart, Book, Clock, Dumbbell, Mail, Shield, Edit } from 'lucide-react';
+import { Menu, Settings, TrendingUp, Heart, Book, Clock, Dumbbell, Mail, Shield, Edit, LogOut } from 'lucide-react';
 import { Drawer, DrawerClose, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
 import { Switch } from "@/components/ui/switch";
+import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/contexts/AuthContext';
 import ContactDialog from '@/components/ContactDialog';
 import EditProfileDialog from '@/components/EditProfileDialog';
 
@@ -13,6 +15,8 @@ import regen___track_logo from "@assets/regen & track logo.png";
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
+  const { signOut } = useAuth();
   const [adsEnabled, setAdsEnabled] = useState(true);
   const [contactDialogOpen, setContactDialogOpen] = useState(false);
   const [editProfileOpen, setEditProfileOpen] = useState(false);
@@ -63,6 +67,23 @@ const Dashboard = () => {
 
   const handleProfileSave = (newData: typeof profileData) => {
     setProfileData(newData);
+  };
+
+  const handleLogout = async () => {
+    try {
+      await signOut();
+      toast({
+        title: "Signed Out",
+        description: "You have been successfully signed out.",
+      });
+    } catch (error) {
+      console.error('Error signing out:', error);
+      toast({
+        title: "Error",
+        description: "Failed to sign out.",
+        variant: "destructive"
+      });
+    }
   };
 
   return (
@@ -151,6 +172,14 @@ const Dashboard = () => {
                   >
                     <Shield className="h-4 w-4 mr-3" />
                     Privacy Policy
+                  </Button>
+                  <Button
+                    onClick={handleLogout}
+                    variant="ghost"
+                    className="w-full justify-start text-red-400 hover:bg-red-500/10"
+                  >
+                    <LogOut className="h-4 w-4 mr-3" />
+                    Log Out
                   </Button>
                 </div>
 
