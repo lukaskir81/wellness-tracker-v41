@@ -64,10 +64,7 @@ const Login: React.FC = () => {
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="text-center space-y-4">
-            <p className="text-gray-300 text-sm">
-              Welcome to your comprehensive fitness tracking platform. Monitor your strength, 
-              wellness, and recovery with AI-powered insights.
-            </p>
+            <p className="text-gray-300 text-sm">Welcome to your comprehensive fitness tracking app. Monitor your strength, wellness, and recovery with AI-powered insights.</p>
           </div>
           
           <form onSubmit={handleSubmit} className="space-y-4">
