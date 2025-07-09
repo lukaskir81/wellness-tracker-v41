@@ -185,8 +185,8 @@ const Dashboard = () => {
 
         {/* Title */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2">Wellness &amp; Fitness Tracker</h1>
-          <p className="text-white/80">Track your wellness, recovery habits and more!</p>
+          <h1 className="font-bold text-white text-[26px] mt-[3px] mb-[3px]">Wellness &amp; Fitness Tracker</h1>
+          <p className="text-white/80 font-semibold">Track your wellness, recovery habits and more!</p>
         </div>
 
         {/* Feature Cards */}
