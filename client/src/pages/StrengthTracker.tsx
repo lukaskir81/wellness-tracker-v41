@@ -963,64 +963,66 @@ const StrengthTracker = () => {
       </Layout>;
   }
   if (viewMode === 'track' && selectedExercise) {
-    return <Layout title="Strength Tracker" showBack={false}>
-        <div className="space-y-6">
-          <Card className="bg-gray-800/80 backdrop-blur border-gray-700 p-6">
-            <div className="mb-6">
-              <Button variant="ghost" onClick={goBack} className="text-white hover:bg-white/10 mb-4">
-                ← Back
-              </Button>
-              <h2 className="text-white font-semibold text-lg">{selectedExercise}</h2>
-            </div>
+    return (
+      <Layout title="Strength Tracker" showBack={false}>
+          <div className="space-y-6">
+            <Card className="bg-gray-800/80 backdrop-blur border-gray-700 p-6">
+              <div className="mb-6">
+                <Button variant="ghost" onClick={goBack} className="text-white hover:bg-white/10 mb-4">
+                  ← Back
+                </Button>
+                <h2 className="text-white font-semibold text-lg">{selectedExercise}</h2>
+              </div>
 
-            {/* Date Selection */}
-            <Card className="glass-dark p-3 mb-4">
-              <div className="flex items-center justify-between">
-                <span className="text-white font-medium">Select Date</span>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button variant="outline" className={cn("justify-start text-left font-normal glass border-white/20 text-white", !date && "text-muted-foreground")}>
-                      <CalendarIcon className="mr-2 h-4 w-4" />
-                      {date ? format(date, "dd/MM/yyyy") : <span>Pick a date</span>}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar mode="single" selected={date} onSelect={handleDateSelect} initialFocus className={cn("p-3 pointer-events-auto")} />
-                  </PopoverContent>
-                </Popover>
+              {/* Date Selection */}
+              <Card className="glass-dark p-3 mb-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-white font-medium">Select Date</span>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button variant="outline" className={cn("justify-start text-left font-normal glass border-white/20 text-white", !date && "text-muted-foreground")}>
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {date ? format(date, "dd/MM/yyyy") : <span>Pick a date</span>}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar mode="single" selected={date} onSelect={handleDateSelect} initialFocus className={cn("p-3 pointer-events-auto")} />
+                    </PopoverContent>
+                  </Popover>
+                </div>
+              </Card>
+
+              <div className="space-y-4">
+                <div className="grid grid-cols-4 gap-4 text-white font-semibold text-sm">
+                  <div>Set</div>
+                  <div>Reps</div>
+                  <div>Load</div>
+                  <div>RIR</div>
+                </div>
+
+                {sets.map((set, index) => <div key={index} className="grid grid-cols-4 gap-4 items-center">
+                    <div className="text-white font-semibold">{index + 1}</div>
+                    <Input type="number" value={set.reps} onChange={e => updateSet(index, 'reps', parseInt(e.target.value))} className="bg-gray-700/50 border-gray-600 text-white" />
+                    <div className="flex items-center gap-2">
+                      <Input type="number" value={set.load} onChange={e => updateSet(index, 'load', parseInt(e.target.value))} className="bg-gray-700/50 border-gray-600 text-white" />
+                      <span className="text-white/60 text-sm">kg</span>
+                    </div>
+                    <Input type="number" value={set.rir} onChange={e => updateSet(index, 'rir', parseInt(e.target.value))} className="bg-gray-700/50 border-gray-600 text-white" />
+                  </div>)}
+
+                <Button onClick={addSet} className="w-12 h-12 rounded-full bg-blue-500 hover:bg-blue-600 text-white flex items-center justify-center">
+                  +
+                </Button>
+                <p className="text-white/60 text-sm">add next set</p>
               </div>
             </Card>
 
-            <div className="space-y-4">
-              <div className="grid grid-cols-4 gap-4 text-white font-semibold text-sm">
-                <div>Sets</div>
-                <div>Reps</div>
-                <div>Load</div>
-                <div>RIR</div>
-              </div>
-
-              {sets.map((set, index) => <div key={index} className="grid grid-cols-4 gap-4 items-center">
-                  <div className="text-white font-semibold">{index + 1}</div>
-                  <Input type="number" value={set.reps} onChange={e => updateSet(index, 'reps', parseInt(e.target.value))} className="bg-gray-700/50 border-gray-600 text-white" />
-                  <div className="flex items-center gap-2">
-                    <Input type="number" value={set.load} onChange={e => updateSet(index, 'load', parseInt(e.target.value))} className="bg-gray-700/50 border-gray-600 text-white" />
-                    <span className="text-white/60 text-sm">kg</span>
-                  </div>
-                  <Input type="number" value={set.rir} onChange={e => updateSet(index, 'rir', parseInt(e.target.value))} className="bg-gray-700/50 border-gray-600 text-white" />
-                </div>)}
-
-              <Button onClick={addSet} className="w-12 h-12 rounded-full bg-blue-500 hover:bg-blue-600 text-white flex items-center justify-center">
-                +
-              </Button>
-              <p className="text-white/60 text-sm">add next set</p>
-            </div>
-          </Card>
-
-          <Button className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3">
-            save
-          </Button>
-        </div>
-      </Layout>;
+            <Button className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3">
+              save
+            </Button>
+          </div>
+        </Layout>
+    );
   }
   if (viewMode === 'exercises' && selectedCategory) {
     const category = categories.find(cat => cat.name === selectedCategory);
