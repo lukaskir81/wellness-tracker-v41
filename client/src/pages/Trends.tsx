@@ -501,6 +501,7 @@ const Trends = () => {
                   tick={{ fill: 'rgba(255, 255, 255, 0.6)', fontSize: 12 }}
                   width={isFitnessTest ? 35 : 20}
                   tickFormatter={isFitnessTest ? formatTimeToMMSS : undefined}
+                  domain={isFitnessTest ? [150, 'dataMax'] : ['dataMin', 'dataMax']}
                 />
                 <Tooltip
                   contentStyle={{
