@@ -182,7 +182,7 @@ const Trends = () => {
         {/* Wellness Trends */}
         <Card className="glass-dark p-6">
           <div className="flex flex-col gap-4 mb-4">
-            <h3 className="text-white font-semibold text-lg flex items-center gap-2">
+            <h3 className="text-white font-semibold flex items-center gap-2 text-[16px]">
               <span className="text-2xl">📈</span>
               Wellness Trends
             </h3>
@@ -320,7 +320,7 @@ const Trends = () => {
 
         {/* Recovery Score */}
         <Card className="glass-dark p-6">
-          <h3 className="text-white font-semibold text-lg mb-4 flex items-center gap-2">
+          <h3 className="text-white font-semibold mb-4 flex items-center gap-2 text-[16px]">
             <span className="text-2xl">📊</span>
             Recovery Score
           </h3>
