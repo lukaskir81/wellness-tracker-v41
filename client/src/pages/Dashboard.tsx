@@ -9,6 +9,8 @@ import { Switch } from "@/components/ui/switch";
 import ContactDialog from '@/components/ContactDialog';
 import EditProfileDialog from '@/components/EditProfileDialog';
 
+import regen___track_logo from "@assets/regen & track logo.png";
+
 const Dashboard = () => {
   const navigate = useNavigate();
   const [adsEnabled, setAdsEnabled] = useState(true);
@@ -70,10 +72,10 @@ const Dashboard = () => {
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-3">
             <div className="w-16 h-12 bg-transparent rounded-lg flex items-center justify-center">
-              <img src="https://static.wixstatic.com/media/58fc31_00095fef7fc04600b9031712060a631f~mv2.png/v1/fill/w_128,h_144,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/GPC%20Logo%20-%20PNG%20Large_edited.png" alt="GPC Performance Logo" className="w-full h-full object-contain" />
+              <img src={regen___track_logo} alt="GPC Performance Logo" className="w-full h-full object-contain" />
             </div>
             <div>
-              <h2 className="text-white font-bold text-xl">Improve conditioning</h2>
+              <h2 className="text-white font-bold text-xl">Regen & track </h2>
               <p className="text-white/80 text-sm">Build confidence</p>
             </div>
           </div>
