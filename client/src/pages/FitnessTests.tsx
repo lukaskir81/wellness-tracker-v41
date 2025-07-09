@@ -9,8 +9,10 @@ import { Input } from '@/components/ui/input';
 import { CalendarIcon } from 'lucide-react';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
+import { useToast } from '@/hooks/use-toast';
 
 const FitnessTests = () => {
+  const { toast } = useToast();
   const [date, setDate] = useState<Date>(new Date());
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [showLogForm, setShowLogForm] = useState(false);
@@ -37,6 +39,27 @@ const FitnessTests = () => {
       { name: "0-30m Dash", unit: "seconds", example: "4.12" },
       { name: "Flying 10m", unit: "seconds", example: "0.89" }
     ]
+  };
+
+  const handleDateSelect = (newDate: Date | undefined) => {
+    if (!newDate) return;
+    
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Reset time to start of day
+    
+    const selectedDate = new Date(newDate);
+    selectedDate.setHours(0, 0, 0, 0); // Reset time to start of day
+    
+    if (selectedDate > today) {
+      toast({
+        title: "Invalid Date",
+        description: "Future dates cannot be selected.",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    setDate(newDate);
   };
 
   const handleCategoryChange = (category: string) => {
@@ -99,7 +122,7 @@ const FitnessTests = () => {
                   <Calendar
                     mode="single"
                     selected={date}
-                    onSelect={(newDate) => newDate && setDate(newDate)}
+                    onSelect={handleDateSelect}
                     initialFocus
                     className={cn("p-3 pointer-events-auto")}
                   />

@@ -81,6 +81,27 @@ const WellnessEntry = () => {
     }
   };
 
+  const handleDateSelect = (newDate: Date | undefined) => {
+    if (!newDate) return;
+    
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Reset time to start of day
+    
+    const selectedDate = new Date(newDate);
+    selectedDate.setHours(0, 0, 0, 0); // Reset time to start of day
+    
+    if (selectedDate > today) {
+      toast({
+        title: "Invalid Date",
+        description: "Future dates cannot be selected.",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    setDate(newDate);
+  };
+
   const handleAnalyzeWellness = async () => {
     setShowAnalysis(true);
     setIsAnalyzing(true);
@@ -147,7 +168,7 @@ const WellnessEntry = () => {
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0" align="start">
-                <Calendar mode="single" selected={date} onSelect={newDate => newDate && setDate(newDate)} initialFocus className={cn("p-3 pointer-events-auto")} />
+                <Calendar mode="single" selected={date} onSelect={handleDateSelect} initialFocus className={cn("p-3 pointer-events-auto")} />
               </PopoverContent>
             </Popover>
           </div>

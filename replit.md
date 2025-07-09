@@ -112,6 +112,8 @@ This is a comprehensive fitness and wellness tracking application built for GPC 
 
 ```
 Changelog:
+- July 09, 2025. Implemented date picker in strength tracker with future date validation across all date pickers
+- July 09, 2025. Added future date blocking with "Future dates cannot be selected" error message for all date pickers
 - July 09, 2025. Updated login screen branding: changed title from "GPC Performance" to "Regen & Track" and integrated new logo above title
 - July 09, 2025. Added red "Log Out" button to Dashboard menu positioned below "Privacy Policy" with consistent styling
 - July 08, 2025. Fixed AI wellness analysis to correctly interpret stress and soreness metrics (low values = positive)

@@ -9,11 +9,13 @@ import { CalendarIcon } from 'lucide-react';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { useNavigate } from 'react-router-dom';
+import { useToast } from '@/hooks/use-toast';
 import AIAnalysisDialog from '@/components/AIAnalysisDialog';
 import { analyzeRecoveryData } from '@/services/geminiService';
 
 const RecoveryAssessment = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const [date, setDate] = useState<Date>(new Date());
   const [totalPoints, setTotalPoints] = useState(0);
   const [selectedItems, setSelectedItems] = useState<Record<string, boolean>>({});
@@ -71,6 +73,27 @@ const RecoveryAssessment = () => {
       ]
     }
   ];
+
+  const handleDateSelect = (newDate: Date | undefined) => {
+    if (!newDate) return;
+    
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Reset time to start of day
+    
+    const selectedDate = new Date(newDate);
+    selectedDate.setHours(0, 0, 0, 0); // Reset time to start of day
+    
+    if (selectedDate > today) {
+      toast({
+        title: "Invalid Date",
+        description: "Future dates cannot be selected.",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    setDate(newDate);
+  };
 
   const toggleItem = (category: string, itemIndex: number, points: number) => {
     const key = `${category}-${itemIndex}`;
@@ -143,7 +166,7 @@ const RecoveryAssessment = () => {
                 <Calendar
                   mode="single"
                   selected={date}
-                  onSelect={(newDate) => newDate && setDate(newDate)}
+                  onSelect={handleDateSelect}
                   initialFocus
                   className={cn("p-3 pointer-events-auto")}
                 />

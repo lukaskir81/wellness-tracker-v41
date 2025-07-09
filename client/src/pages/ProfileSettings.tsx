@@ -24,7 +24,7 @@ const ProfileSettings = () => {
     email: user?.email || '',
     age: '25',
     height: '180',
-    weight: '75',
+    weight: '80',
     sport: 'Running',
     profileImage: user?.photoURL || ''
   });
@@ -57,7 +57,7 @@ const ProfileSettings = () => {
             name: user.displayName || '',
             email: user.email || '',
             dateOfBirth: format(dateOfBirth, 'yyyy-MM-dd'),
-            bodyWeight: '75',
+            bodyWeight: '80',
             profileImage: user.photoURL || ''
           };
           const profileId = await firestoreService.createUserProfile(newProfile);

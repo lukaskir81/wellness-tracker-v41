@@ -21,9 +21,9 @@ const Dashboard = () => {
   const [contactDialogOpen, setContactDialogOpen] = useState(false);
   const [editProfileOpen, setEditProfileOpen] = useState(false);
   const [profileData, setProfileData] = useState({
-    name: 'John Doe',
+    name: 'Lukas',
     dateOfBirth: 'Jan 15, 1990',
-    bodyWeight: '75 kg',
+    bodyWeight: '80 kg',
     profileImage: ''
   });
 

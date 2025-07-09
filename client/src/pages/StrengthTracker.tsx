@@ -5,9 +5,14 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Calendar } from '@/components/ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { useNavigate } from 'react-router-dom';
-import { Dumbbell, TrendingUp, BarChart3, Calculator } from 'lucide-react';
+import { Dumbbell, TrendingUp, BarChart3, Calculator, CalendarIcon } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { format } from 'date-fns';
+import { cn } from '@/lib/utils';
+import { useToast } from '@/hooks/use-toast';
 import OneRMCalculator from '@/components/OneRMCalculator';
 type ViewMode = 'main' | 'categories' | 'exercises' | 'track' | 'viewLogs';
 interface WorkoutLog {
@@ -20,10 +25,12 @@ interface WorkoutLog {
 }
 const StrengthTracker = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const [viewMode, setViewMode] = useState<ViewMode>('main');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedExercise, setSelectedExercise] = useState<string | null>(null);
   const [isTrackingMode, setIsTrackingMode] = useState(false);
+  const [date, setDate] = useState<Date>(new Date());
   const [sets, setSets] = useState([{
     reps: 6,
     load: 80,
@@ -829,6 +836,27 @@ const StrengthTracker = () => {
     };
     setSets(newSets);
   };
+  const handleDateSelect = (newDate: Date | undefined) => {
+    if (!newDate) return;
+    
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Reset time to start of day
+    
+    const selectedDate = new Date(newDate);
+    selectedDate.setHours(0, 0, 0, 0); // Reset time to start of day
+    
+    if (selectedDate > today) {
+      toast({
+        title: "Invalid Date",
+        description: "Future dates cannot be selected.",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    setDate(newDate);
+  };
+
   const goBack = () => {
     if (viewMode === 'track' && selectedExercise) {
       setSelectedExercise(null);
@@ -944,6 +972,24 @@ const StrengthTracker = () => {
               </Button>
               <h2 className="text-white font-semibold text-lg">{selectedExercise}</h2>
             </div>
+
+            {/* Date Selection */}
+            <Card className="glass-dark p-3 mb-4">
+              <div className="flex items-center justify-between">
+                <span className="text-white font-medium">Select Date</span>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button variant="outline" className={cn("justify-start text-left font-normal glass border-white/20 text-white", !date && "text-muted-foreground")}>
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {date ? format(date, "dd/MM/yyyy") : <span>Pick a date</span>}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar mode="single" selected={date} onSelect={handleDateSelect} initialFocus className={cn("p-3 pointer-events-auto")} />
+                  </PopoverContent>
+                </Popover>
+              </div>
+            </Card>
 
             <div className="space-y-4">
               <div className="grid grid-cols-4 gap-4 text-white font-semibold text-sm">
