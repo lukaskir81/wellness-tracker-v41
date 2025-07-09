@@ -75,8 +75,8 @@ const Dashboard = () => {
               <img src={regen___track_logo} alt="GPC Performance Logo" className="w-full h-full object-contain" />
             </div>
             <div>
-              <h2 className="text-white font-bold text-xl">Regen & track </h2>
-              <p className="text-white/80 text-sm">Build confidence</p>
+              <h2 className="text-white font-bold text-xl">Regen & Track </h2>
+              <p className="text-white/80 text-sm font-semibold">Your Data. Your Recovery. Your Edge.</p>
             </div>
           </div>
           
