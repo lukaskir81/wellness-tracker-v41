@@ -101,7 +101,7 @@ const Trends = () => {
   };
 
   // Change to single test selection instead of multiple arrays
-  const [selectedTest, setSelectedTest] = useState('SLJ (Standing Long Jump)');
+  const [selectedTest, setSelectedTest] = useState('1.2K Time Trial');
 
   // Comprehensive wellness data
   const wellnessData = {
@@ -175,6 +175,16 @@ const Trends = () => {
     speed: ['0-10m Dash', '0-20m Dash', '0-30m Dash', 'Flying 10m'],
     strength: Object.keys(strengthData)
   };
+
+  // Helper function to format seconds to MM:SS
+  const formatTimeToMMSS = (seconds: number): string => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+  };
+
+  // Check if current test is a fitness test (requires time formatting)
+  const isFitnessTest = testCategories.fitness.includes(selectedTest);
 
   return (
     <Layout title="Trends">
@@ -489,7 +499,8 @@ const Trends = () => {
                   axisLine={{ stroke: 'rgba(255, 255, 255, 0.3)', strokeWidth: 1 }}
                   tickLine={false}
                   tick={{ fill: 'rgba(255, 255, 255, 0.6)', fontSize: 12 }}
-                  width={20}
+                  width={isFitnessTest ? 35 : 20}
+                  tickFormatter={isFitnessTest ? formatTimeToMMSS : undefined}
                 />
                 <Tooltip
                   contentStyle={{
@@ -499,6 +510,7 @@ const Trends = () => {
                     color: '#F3F4F6'
                   }}
                   labelStyle={{ color: '#F3F4F6' }}
+                  formatter={isFitnessTest ? (value: any) => [formatTimeToMMSS(value), 'Time'] : undefined}
                 />
                 <Bar 
                   dataKey="score" 
