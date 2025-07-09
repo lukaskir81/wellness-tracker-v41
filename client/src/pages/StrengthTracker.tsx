@@ -993,14 +993,14 @@ const StrengthTracker = () => {
               </Card>
 
               <div className="space-y-4">
-                <div className="grid grid-cols-4 gap-4 text-white font-semibold text-sm">
+                <div className="grid grid-cols-[auto_1fr_2fr_1fr] gap-4 text-white font-semibold text-sm">
                   <div>Set</div>
                   <div>Reps</div>
                   <div>Load</div>
                   <div>RIR</div>
                 </div>
 
-                {sets.map((set, index) => <div key={index} className="grid grid-cols-4 gap-4 items-center">
+                {sets.map((set, index) => <div key={index} className="grid grid-cols-[auto_1fr_2fr_1fr] gap-4 items-center">
                     <div className="text-white font-semibold">{index + 1}</div>
                     <Input type="number" value={set.reps} onChange={e => updateSet(index, 'reps', parseInt(e.target.value))} className="bg-gray-700/50 border-gray-600 text-white" />
                     <div className="flex items-center gap-2">
