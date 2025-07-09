@@ -207,7 +207,8 @@ const ProfileSettings = () => {
                     <Button
                       size="sm"
                       onClick={handleLogout}
-                      className="bg-red-600 hover:bg-red-700 text-white"
+                      className="bg-red-600 hover:bg-red-700 text-white border-0"
+                      variant="default"
                     >
                       <LogOut className="h-4 w-4 mr-1" />
                       <span className="text-sm">Log Out</span>
@@ -224,9 +225,20 @@ const ProfileSettings = () => {
                     <p className="text-white font-medium">{profileData.age}</p>
                   </div>
                 </div>
-                <div>
-                  <label className="text-white/70 text-sm">Body Weight</label>
-                  <p className="text-white">{profileData.weight} kg</p>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <label className="text-white/70 text-sm">Body Weight</label>
+                    <p className="text-white">{profileData.weight} kg</p>
+                  </div>
+                  <Button
+                    size="sm"
+                    onClick={handleLogout}
+                    className="bg-red-600 hover:bg-red-700 text-white border-0"
+                    variant="default"
+                  >
+                    <LogOut className="h-4 w-4 mr-1" />
+                    <span className="text-sm">Log Out</span>
+                  </Button>
                 </div>
               </div>
             </div>
