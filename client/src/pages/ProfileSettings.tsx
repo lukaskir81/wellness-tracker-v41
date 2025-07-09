@@ -197,12 +197,22 @@ const ProfileSettings = () => {
                     <label className="text-white/70 text-sm">Full Name</label>
                     <p className="text-white font-medium text-lg">{profileData.name}</p>
                   </div>
-                  <Button
-                    size="sm"
-                    className="bg-teal-600 hover:bg-teal-700 text-white"
-                  >
-                    <span className="text-sm">✏️ Edit</span>
-                  </Button>
+                  <div className="flex flex-col gap-2">
+                    <Button
+                      size="sm"
+                      className="bg-teal-600 hover:bg-teal-700 text-white"
+                    >
+                      <span className="text-sm">✏️ Edit</span>
+                    </Button>
+                    <Button
+                      size="sm"
+                      onClick={handleLogout}
+                      className="bg-red-600 hover:bg-red-700 text-white"
+                    >
+                      <LogOut className="h-4 w-4 mr-1" />
+                      <span className="text-sm">Log Out</span>
+                    </Button>
+                  </div>
                 </div>
                 <div className="flex gap-6">
                   <div>
