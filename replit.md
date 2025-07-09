@@ -112,6 +112,8 @@ This is a comprehensive fitness and wellness tracking application built for GPC 
 
 ```
 Changelog:
+- July 09, 2025. Updated login screen branding: changed title from "GPC Performance" to "Regen & Track" and integrated new logo above title
+- July 09, 2025. Added red "Log Out" button to Dashboard menu positioned below "Privacy Policy" with consistent styling
 - July 08, 2025. Fixed AI wellness analysis to correctly interpret stress and soreness metrics (low values = positive)
 - July 08, 2025. Enhanced Profile Settings with calendar date picker and automatic age calculation
 - July 08, 2025. Fixed Wellness Logs display issues with Firebase data integration

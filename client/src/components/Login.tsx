@@ -5,6 +5,7 @@ import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { signIn, signUp } from '../lib/firebase';
 import { useToast } from '../hooks/use-toast';
+import regenTrackLogo from '@assets/regen & track logo.png';
 
 const Login: React.FC = () => {
   const { toast } = useToast();
@@ -47,8 +48,15 @@ const Login: React.FC = () => {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
       <Card className="w-full max-w-md bg-gray-900/90 border-gray-700 backdrop-blur-sm">
         <CardHeader className="text-center">
+          <div className="flex justify-center mb-4">
+            <img 
+              src={regenTrackLogo} 
+              alt="Regen & Track Logo" 
+              className="h-20 w-auto object-contain"
+            />
+          </div>
           <CardTitle className="text-3xl font-bold text-white mb-2">
-            GPC Performance
+            Regen & Track
           </CardTitle>
           <CardDescription className="text-gray-300">
             Track your fitness journey with precision
