@@ -60,15 +60,21 @@ const RecoveryAssessment = () => {
       items: [
         { text: "45-60mins Outdoor walk", points: 15 },
         { text: "30mins Recovery bike session", points: 10 },
+        { text: "30 mins Pool session", points: 10 },
+        { text: "An Activity you really enjoy to unwind/ relax have fun", points: 15 },
+        { text: "Mobility drills/ prehab routines", points: 10 },
+        { text: "Gym reset/ flush (bodyweight routine)", points: 10 },
+        { text: "Foam rolling", points: 5 },
+      ]
+    },
+    {
+      category: "Passive recovery",
+      icon: "💆",
+      items: [
         { text: "Cryotherapy", points: 10 },
         { text: "Hot/Cold Water therapy", points: 10 },
         { text: "30 mins massage", points: 15 },
         { text: "Sauna", points: 5 },
-        { text: "30 mins Pool session", points: 10 },
-        { text: "Gym reset/ flush (bodyweight routine)", points: 10 },
-        { text: "An Activity you really enjoy to unwind/ relax have fun", points: 15 },
-        { text: "Mobility drills/ prehab routines", points: 10 },
-        { text: "Foam rolling", points: 5 },
       ]
     },
     {
@@ -77,6 +83,7 @@ const RecoveryAssessment = () => {
       items: [
         { text: "phone before <1.5 hrs before bed", points: -25 },
         { text: "Alcohol", points: -80 },
+        { text: "Watching TV before bed", points: -10 },
       ]
     }
   ];
