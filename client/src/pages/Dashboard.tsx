@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { Menu, Settings, TrendingUp, Heart, Book, Clock, Dumbbell, Mail, Shield, Edit, LogOut } from 'lucide-react';
+import { Menu, Settings, TrendingUp, Heart, Book, Clock, Dumbbell, Mail, Shield, Edit, LogOut, Share2 } from 'lucide-react';
 import { Drawer, DrawerClose, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from '@/hooks/use-toast';
@@ -83,6 +83,47 @@ const Dashboard = () => {
         description: "Failed to sign out.",
         variant: "destructive"
       });
+    }
+  };
+
+  const handleShare = async () => {
+    const shareData = {
+      title: 'Regen & Track - Fitness & Recovery App',
+      text: 'Hey check out this great free app to allow you track your recovery and other stats related to your training. App motto: Regen & Track - Your Data. Your Recovery. Your Edge.',
+      url: window.location.origin
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+        toast({
+          title: "Shared Successfully",
+          description: "App shared successfully!",
+        });
+      } else {
+        // Fallback for browsers that don't support Web Share API
+        await navigator.clipboard.writeText(`${shareData.text} ${shareData.url}`);
+        toast({
+          title: "Copied to Clipboard",
+          description: "Share message copied to clipboard!",
+        });
+      }
+    } catch (error) {
+      console.error('Error sharing:', error);
+      // Fallback to clipboard if share fails
+      try {
+        await navigator.clipboard.writeText(`${shareData.text} ${shareData.url}`);
+        toast({
+          title: "Copied to Clipboard",
+          description: "Share message copied to clipboard!",
+        });
+      } catch (clipboardError) {
+        toast({
+          title: "Share Failed",
+          description: "Unable to share or copy to clipboard.",
+          variant: "destructive"
+        });
+      }
     }
   };
 
@@ -180,6 +221,14 @@ const Dashboard = () => {
                   >
                     <LogOut className="h-4 w-4 mr-3" />
                     Log Out
+                  </Button>
+                  <Button
+                    onClick={handleShare}
+                    variant="ghost"
+                    className="w-full justify-start text-blue-400 hover:bg-blue-500/10"
+                  >
+                    <Share2 className="h-4 w-4 mr-3" />
+                    Share App
                   </Button>
                 </div>
 
