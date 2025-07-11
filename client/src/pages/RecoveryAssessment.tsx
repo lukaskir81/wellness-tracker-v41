@@ -19,6 +19,7 @@ const RecoveryAssessment = () => {
   const [date, setDate] = useState<Date>(new Date());
   const [totalPoints, setTotalPoints] = useState(0);
   const [selectedItems, setSelectedItems] = useState<Record<string, boolean>>({});
+  const [selectedSleepOption, setSelectedSleepOption] = useState<number | null>(null); // For tracking sleep radio selection
   
   // AI Analysis state
   const [showAnalysis, setShowAnalysis] = useState(false);
@@ -95,7 +96,33 @@ const RecoveryAssessment = () => {
     setDate(newDate);
   };
 
+  const handleSleepSelection = (itemIndex: number, points: number) => {
+    // If same option is clicked, deselect it
+    if (selectedSleepOption === itemIndex) {
+      const previousPoints = assessmentItems[0].items[selectedSleepOption].points;
+      setSelectedSleepOption(null);
+      setTotalPoints(prev => prev - previousPoints);
+      return;
+    }
+    
+    // Remove points from previously selected sleep option
+    if (selectedSleepOption !== null) {
+      const previousPoints = assessmentItems[0].items[selectedSleepOption].points;
+      setTotalPoints(prev => prev - previousPoints);
+    }
+    
+    // Set new selection and add points
+    setSelectedSleepOption(itemIndex);
+    setTotalPoints(prev => prev + points);
+  };
+
   const toggleItem = (category: string, itemIndex: number, points: number) => {
+    // Handle sleep category differently
+    if (category === "Sleep") {
+      handleSleepSelection(itemIndex, points);
+      return;
+    }
+    
     const key = `${category}-${itemIndex}`;
     const newSelected = { ...selectedItems };
     
@@ -117,9 +144,15 @@ const RecoveryAssessment = () => {
     setAnalysisResult('');
 
     try {
+      // Create a comprehensive data structure including sleep selection
       const recoveryData = {
         totalPoints,
         selectedItems,
+        selectedSleepOption: selectedSleepOption !== null ? {
+          index: selectedSleepOption,
+          text: assessmentItems[0].items[selectedSleepOption].text,
+          points: assessmentItems[0].items[selectedSleepOption].points
+        } : null,
         assessmentItems
       };
 
@@ -191,8 +224,12 @@ const RecoveryAssessment = () => {
             <div className="space-y-2">
               {category.items.map((item, itemIndex) => {
                 const key = `${category.category}-${itemIndex}`;
-                const isSelected = selectedItems[key];
                 const isNegative = item.points < 0;
+                
+                // For sleep category, use radio button logic
+                const isSelected = category.category === "Sleep" 
+                  ? selectedSleepOption === itemIndex
+                  : selectedItems[key];
                 
                 return (
                   <div
@@ -208,18 +245,33 @@ const RecoveryAssessment = () => {
                     onClick={() => toggleItem(category.category, itemIndex, item.points)}
                   >
                     <div className="flex items-center gap-3">
-                      <div className={cn(
-                        "w-5 h-5 rounded border-2 flex items-center justify-center",
-                        isSelected
-                          ? isNegative
-                            ? "bg-red-500 border-red-500"
-                            : "bg-green-500 border-green-500"
-                          : "border-white/30"
-                      )}>
-                        {isSelected && (
-                          <span className="text-white text-xs">✓</span>
-                        )}
-                      </div>
+                      {category.category === "Sleep" ? (
+                        // Radio button for sleep options
+                        <div className={cn(
+                          "w-5 h-5 rounded-full border-2 flex items-center justify-center",
+                          isSelected
+                            ? "bg-green-500 border-green-500"
+                            : "border-white/30"
+                        )}>
+                          {isSelected && (
+                            <div className="w-2 h-2 rounded-full bg-white"></div>
+                          )}
+                        </div>
+                      ) : (
+                        // Checkbox for other categories
+                        <div className={cn(
+                          "w-5 h-5 rounded border-2 flex items-center justify-center",
+                          isSelected
+                            ? isNegative
+                              ? "bg-red-500 border-red-500"
+                              : "bg-green-500 border-green-500"
+                            : "border-white/30"
+                        )}>
+                          {isSelected && (
+                            <span className="text-white text-xs">✓</span>
+                          )}
+                        </div>
+                      )}
                       <span className="text-white text-sm">{item.text}</span>
                     </div>
                     <div className="flex items-center gap-2">
