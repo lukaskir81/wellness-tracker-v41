@@ -50,7 +50,7 @@ const Education = () => {
               <img src="https://static.wixstatic.com/media/58fc31_00095fef7fc04600b9031712060a631f~mv2.png/v1/fill/w_128,h_144,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/GPC%20Logo%20-%20PNG%20Large_edited.png" alt="GPC Logo" className="w-full h-full object-contain" />
             </div>
             <div>
-              <h2 className="text-gray-800 font-bold text-sm">GPC</h2>
+              <h2 className="font-bold text-sm text-[#f5f9fc]">GPC</h2>
               <p className="text-gray-800 text-xs">PERFORMANCE</p>
             </div>
             <div className="ml-auto">
