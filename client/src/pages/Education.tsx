@@ -61,7 +61,7 @@ const Education = () => {
         </Card>
 
         <Card className="glass p-4">
-          <h3 className="text-gray-800 font-bold text-lg mb-4">Educational Resources</h3>
+          <h3 className="font-bold text-lg mb-4 text-[#f5f9fc]">Resources/ Education</h3>
           
           <div className="space-y-3">
             {educationalLinks.map((link, index) => <Card key={index} className="bg-white/20 backdrop-blur border-white/30 p-3">
