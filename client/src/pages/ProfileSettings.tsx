@@ -247,21 +247,21 @@ const ProfileSettings = () => {
                     </Button>
                     <Button
                       size="sm"
-                      onClick={handleShare}
-                      className="bg-blue-600 hover:bg-blue-700 text-white border-0"
-                      variant="default"
-                    >
-                      <Share2 className="h-4 w-4 mr-1" />
-                      <span className="text-sm">Share App</span>
-                    </Button>
-                    <Button
-                      size="sm"
                       onClick={handleLogout}
                       className="bg-red-600 hover:bg-red-700 text-white border-0"
                       variant="default"
                     >
                       <LogOut className="h-4 w-4 mr-1" />
                       <span className="text-sm">Log Out</span>
+                    </Button>
+                    <Button
+                      size="sm"
+                      onClick={handleShare}
+                      className="bg-blue-600 hover:bg-blue-700 text-white border-0"
+                      variant="default"
+                    >
+                      <Share2 className="h-4 w-4 mr-1" />
+                      <span className="text-sm">Share App</span>
                     </Button>
                   </div>
                 </div>
