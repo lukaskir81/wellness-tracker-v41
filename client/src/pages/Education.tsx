@@ -21,7 +21,7 @@ const Education = () => {
     description: "Essential guide to power napping for recovery and performance",
     url: "https://www.gpc-performance.com/naps"
   }, {
-    title: "Breathing Drills",
+    title: "Breathing Drills - Premium ",
     description: "Comprehensive breathing techniques for recovery and relaxation",
     url: "https://www.gpc-performance.com/breathing-drills"
   }];
@@ -35,7 +35,7 @@ const Education = () => {
             </div>
             <div>
               <h2 className="text-gray-800 font-bold text-sm">GPC</h2>
-              <p className="text-gray-800 text-xs">PERFORMANCE</p>
+              <p className="text-xs text-[#c6cbd4]">PERFORMANCE</p>
             </div>
             <div className="ml-auto">
               <span className="text-xl">↗️</span>
@@ -44,7 +44,7 @@ const Education = () => {
           <h3 className="font-semibold text-base text-[#b0b5c0]">APEX Performance Program Info</h3>
         </Card>
 
-        <Card className="glass p-4 cursor-pointer hover:bg-white/10 transition-colors" onClick={() => window.open('https://www.gpc-performance.com/online-coaching', '_blank')}>
+        <Card className="glass p-4 cursor-pointer hover:bg-white/10 transition-colors" onClick={() => window.open('https://www.gpc-performance.com/gpcchat', '_blank')}>
           <div className="flex items-center gap-3 mb-3">
             <div className="w-8 h-8 rounded-lg flex items-center justify-center overflow-hidden">
               <img src="https://static.wixstatic.com/media/58fc31_00095fef7fc04600b9031712060a631f~mv2.png/v1/fill/w_128,h_144,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/GPC%20Logo%20-%20PNG%20Large_edited.png" alt="GPC Logo" className="w-full h-full object-contain" />
