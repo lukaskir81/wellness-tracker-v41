@@ -5,7 +5,7 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Camera, Save, LogOut, CalendarIcon } from 'lucide-react';
+import { Camera, Save, LogOut, CalendarIcon, Share2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
@@ -166,6 +166,47 @@ const ProfileSettings = () => {
     }
   };
 
+  const handleShare = async () => {
+    const shareData = {
+      title: 'Regen & Track - Fitness & Recovery App',
+      text: 'Hey check out this great free app to allow you track your recovery and other stats related to your training. App motto: Regen & Track - Your Data. Your Recovery. Your Edge.',
+      url: window.location.origin
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+        toast({
+          title: "Shared Successfully",
+          description: "App shared successfully!",
+        });
+      } else {
+        // Fallback for browsers that don't support Web Share API
+        await navigator.clipboard.writeText(`${shareData.text} ${shareData.url}`);
+        toast({
+          title: "Copied to Clipboard",
+          description: "Share message copied to clipboard!",
+        });
+      }
+    } catch (error) {
+      console.error('Error sharing:', error);
+      // Fallback to clipboard if share fails
+      try {
+        await navigator.clipboard.writeText(`${shareData.text} ${shareData.url}`);
+        toast({
+          title: "Copied to Clipboard",
+          description: "Share message copied to clipboard!",
+        });
+      } catch (clipboardError) {
+        toast({
+          title: "Share Failed",
+          description: "Unable to share or copy to clipboard.",
+          variant: "destructive"
+        });
+      }
+    }
+  };
+
   if (loading) {
     return (
       <Layout title="Profile Settings">
@@ -206,6 +247,15 @@ const ProfileSettings = () => {
                     </Button>
                     <Button
                       size="sm"
+                      onClick={handleShare}
+                      className="bg-blue-600 hover:bg-blue-700 text-white border-0"
+                      variant="default"
+                    >
+                      <Share2 className="h-4 w-4 mr-1" />
+                      <span className="text-sm">Share App</span>
+                    </Button>
+                    <Button
+                      size="sm"
                       onClick={handleLogout}
                       className="bg-red-600 hover:bg-red-700 text-white border-0"
                       variant="default"
@@ -225,20 +275,9 @@ const ProfileSettings = () => {
                     <p className="text-white font-medium">{profileData.age}</p>
                   </div>
                 </div>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <label className="text-white/70 text-sm">Body Weight</label>
-                    <p className="text-white">{profileData.weight} kg</p>
-                  </div>
-                  <Button
-                    size="sm"
-                    onClick={handleLogout}
-                    className="bg-red-600 hover:bg-red-700 text-white border-0"
-                    variant="default"
-                  >
-                    <LogOut className="h-4 w-4 mr-1" />
-                    <span className="text-sm">Log Out</span>
-                  </Button>
+                <div>
+                  <label className="text-white/70 text-sm">Body Weight</label>
+                  <p className="text-white">{profileData.weight} kg</p>
                 </div>
               </div>
             </div>
