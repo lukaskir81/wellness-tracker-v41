@@ -35,8 +35,14 @@ const RecoveryAssessment = () => {
         { text: "Get 8 hrs + of good quality sleep", points: 40 },
         { text: "Get 7-8 hrs of good quality sleep", points: 30 },
         { text: "Get less than 7 hrs of good quality sleep", points: 20 },
+      ]
+    },
+    {
+      category: "Recovery Activities",
+      icon: "🧘",
+      items: [
         { text: "Mid day Nap (20 - 45mins)", points: 10 },
-        { text: "Breathing drills (10mins)", points: 10 },
+        { text: "Breathing drills (10mins)", points: 5 },
         { text: "NSDR protocol (10mins)", points: 5 },
       ]
     },
@@ -99,16 +105,22 @@ const RecoveryAssessment = () => {
   const handleSleepSelection = (itemIndex: number, points: number) => {
     // If same option is clicked, deselect it
     if (selectedSleepOption === itemIndex) {
-      const previousPoints = assessmentItems[0].items[selectedSleepOption].points;
-      setSelectedSleepOption(null);
-      setTotalPoints(prev => prev - previousPoints);
+      const sleepCategory = assessmentItems.find(item => item.category === "Sleep");
+      if (sleepCategory && selectedSleepOption !== null) {
+        const previousPoints = sleepCategory.items[selectedSleepOption].points;
+        setSelectedSleepOption(null);
+        setTotalPoints(prev => prev - previousPoints);
+      }
       return;
     }
     
     // Remove points from previously selected sleep option
     if (selectedSleepOption !== null) {
-      const previousPoints = assessmentItems[0].items[selectedSleepOption].points;
-      setTotalPoints(prev => prev - previousPoints);
+      const sleepCategory = assessmentItems.find(item => item.category === "Sleep");
+      if (sleepCategory) {
+        const previousPoints = sleepCategory.items[selectedSleepOption].points;
+        setTotalPoints(prev => prev - previousPoints);
+      }
     }
     
     // Set new selection and add points
@@ -145,13 +157,14 @@ const RecoveryAssessment = () => {
 
     try {
       // Create a comprehensive data structure including sleep selection
+      const sleepCategory = assessmentItems.find(item => item.category === "Sleep");
       const recoveryData = {
         totalPoints,
         selectedItems,
-        selectedSleepOption: selectedSleepOption !== null ? {
+        selectedSleepOption: selectedSleepOption !== null && sleepCategory ? {
           index: selectedSleepOption,
-          text: assessmentItems[0].items[selectedSleepOption].text,
-          points: assessmentItems[0].items[selectedSleepOption].points
+          text: sleepCategory.items[selectedSleepOption].text,
+          points: sleepCategory.items[selectedSleepOption].points
         } : null,
         assessmentItems
       };
