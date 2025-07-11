@@ -100,7 +100,7 @@
 
   body {
     @apply text-white;
-    background: linear-gradient(135deg, #1E1B4B 0%, #312E81 50%, #4C1D95 100%);
+    background: linear-gradient(135deg, #0F0C29 0%, #24243e 50%, #302b63 100%);
     min-height: 100vh;
     color: white;
   }

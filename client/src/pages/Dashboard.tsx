@@ -128,7 +128,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-purple-900">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-800">
       <div className="relative px-4 py-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
