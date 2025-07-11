@@ -177,9 +177,7 @@ const RecoveryAssessment = () => {
 
         {/* Target Points */}
         <Card className="glass-dark p-3">
-          <p className="text-center text-green-400 text-sm">
-            Accumulate at least 105 points in 24-36 hrs post-match.
-          </p>
+          <p className="text-center text-green-400 text-sm">Accumulate at least 105 points in 24-36 hrs post-match/ heavy session.</p>
         </Card>
 
         {/* Assessment Categories */}
@@ -282,7 +280,6 @@ const RecoveryAssessment = () => {
           <p className="text-white/60 text-sm">Ad will be displayed here once configured.</p>
         </Card>
       </div>
-
       <AIAnalysisDialog
         isOpen={showAnalysis}
         onClose={() => setShowAnalysis(false)}
