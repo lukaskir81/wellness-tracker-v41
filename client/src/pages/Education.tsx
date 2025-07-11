@@ -51,7 +51,7 @@ const Education = () => {
             </div>
             <div>
               <h2 className="font-bold text-sm text-[#f5f9fc]">GPC</h2>
-              <p className="text-gray-800 text-xs">PERFORMANCE</p>
+              <p className="text-xs text-[#dee3e8]">PERFORMANCE</p>
             </div>
             <div className="ml-auto">
               <span className="text-xl">↗️</span>
@@ -78,9 +78,7 @@ const Education = () => {
               </Card>)}
           </div>
           
-          <p className="leading-relaxed text-center mt-3 mb-1 text-[#c6cbd4] text-sm">
-            Access our comprehensive library of training articles, performance insights, and coaching resources to enhance your athletic development.
-          </p>
+          <p className="leading-relaxed text-center mt-3 mb-1 text-[#c6cbd4] text-sm">Access our comprehensive library of training resources, performance insights, and coaching materials to enhance your athletic performance..</p>
         </Card>
 
         {/* Advertisement Space */}
