@@ -58,7 +58,7 @@ const Dashboard = () => {
     color: "bg-purple-600",
     path: "/fitness-tests"
   }, {
-    title: "Education",
+    title: "Resources/ Education",
     icon: Book,
     color: "bg-blue-700",
     path: "/education"
