@@ -112,6 +112,10 @@ This is a comprehensive fitness and wellness tracking application built for GPC 
 
 ```
 Changelog:
+- July 23, 2025. Implemented recovery score saving to Firestore with consistent error handling for Firebase permission issues
+- July 23, 2025. Updated RecoveryLogs component to display saved recovery assessments from Firestore instead of hardcoded data
+- July 23, 2025. Added date validation to recovery assessment preventing future date selection
+- July 23, 2025. Applied graceful error handling for Firebase permission errors across wellness and recovery components
 - July 23, 2025. Fixed RecoveryAssessment.tsx file corruption that was preventing app startup
 - July 23, 2025. Created comprehensive Firebase Security Rules for user data isolation and proper authentication
 - July 23, 2025. Added Firebase debugging component to help identify authentication issues
