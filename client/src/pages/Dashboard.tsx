@@ -138,7 +138,7 @@ const Dashboard = () => {
             </div>
             <div>
               <h2 className="text-white font-bold text-xl">Regen & Track </h2>
-              <p className="text-white/80 text-sm font-semibold">Your Data. Your Recovery. Your Edge.</p>
+              <p className="text-white/80 text-sm font-semibold">Your Data. Your Recovery. Your Edge.               ver 0.45</p>
             </div>
           </div>
           
