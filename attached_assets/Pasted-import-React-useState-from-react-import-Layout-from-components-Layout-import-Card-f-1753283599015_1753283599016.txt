@@ -15,8 +15,6 @@ import { analyzeWellnessData } from '@/services/geminiService';
 import { useAuth } from '@/contexts/AuthContext';
 import { firestoreService } from '@/lib/firestoreService';
 import { useToast } from '@/hooks/use-toast';
-import FirebaseDebug from '@/components/FirebaseDebug';
-
 const WellnessEntry = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -158,7 +156,6 @@ const WellnessEntry = () => {
   };
   return <Layout title="Wellness Entry" headerAction={headerAction}>
       <div className="space-y-4">
-        <FirebaseDebug />
         {/* Date Selection */}
         <Card className="glass-dark p-3">
           <div className="flex items-center justify-between">

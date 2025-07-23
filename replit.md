@@ -112,6 +112,10 @@ This is a comprehensive fitness and wellness tracking application built for GPC 
 
 ```
 Changelog:
+- July 23, 2025. Fixed RecoveryAssessment.tsx file corruption that was preventing app startup
+- July 23, 2025. Created comprehensive Firebase Security Rules for user data isolation and proper authentication
+- July 23, 2025. Added Firebase debugging component to help identify authentication issues
+- July 23, 2025. Documented Firebase setup process with security rules deployment instructions
 - July 09, 2025. Implemented date picker in strength tracker with future date validation across all date pickers
 - July 09, 2025. Added future date blocking with "Future dates cannot be selected" error message for all date pickers
 - July 09, 2025. Updated login screen branding: changed title from "GPC Performance" to "Regen & Track" and integrated new logo above title
