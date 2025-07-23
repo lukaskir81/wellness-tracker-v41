@@ -1,4 +1,103 @@
-new Date();
+import React, { useState } from 'react';
+import Layout from '@/components/Layout';
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { CalendarIcon } from 'lucide-react';
+import { format } from 'date-fns';
+import { cn } from '@/lib/utils';
+import { useNavigate } from 'react-router-dom';
+import AIAnalysisDialog from '@/components/AIAnalysisDialog';
+import { analyzeRecoveryData } from '@/services/geminiService';
+import { useToast } from '@/hooks/use-toast';
+
+// Assessment items data structure
+const assessmentItems = [
+  {
+    category: "Sleep",
+    icon: "😴",
+    items: [
+      { text: "Less than 6 hours", points: -5 },
+      { text: "6-7 hours", points: 5 },
+      { text: "7-8 hours", points: 10 },
+      { text: "8+ hours", points: 15 }
+    ]
+  },
+  {
+    category: "Nutrition",
+    icon: "🥗",
+    items: [
+      { text: "Ate balanced meals throughout the day", points: 10 },
+      { text: "Stayed hydrated (8+ glasses water)", points: 8 },
+      { text: "Consumed protein within 2hrs post-workout", points: 12 },
+      { text: "Avoided processed foods", points: 6 },
+      { text: "Had pre-workout nutrition", points: 5 }
+    ]
+  },
+  {
+    category: "Active Recovery",
+    icon: "🏃‍♂️",
+    items: [
+      { text: "Light cardio (20-30 mins)", points: 15 },
+      { text: "Dynamic stretching session", points: 12 },
+      { text: "Foam rolling (15+ mins)", points: 18 },
+      { text: "Mobility work", points: 14 },
+      { text: "Yoga or pilates", points: 16 }
+    ]
+  },
+  {
+    category: "Passive Recovery",
+    icon: "🛀",
+    items: [
+      { text: "Ice bath or cold therapy", points: 20 },
+      { text: "Sauna session", points: 18 },
+      { text: "Professional massage", points: 25 },
+      { text: "Compression garments", points: 10 },
+      { text: "Elevation of legs", points: 8 }
+    ]
+  },
+  {
+    category: "Mental Wellness",
+    icon: "🧠",
+    items: [
+      { text: "Meditation or mindfulness", points: 12 },
+      { text: "Adequate downtime/relaxation", points: 10 },
+      { text: "Social interaction", points: 8 },
+      { text: "Limited screen time before bed", points: 6 },
+      { text: "Stress management techniques", points: 10 }
+    ]
+  },
+  {
+    category: "Negative Factors",
+    icon: "⚠️",
+    items: [
+      { text: "Consumed alcohol", points: -10 },
+      { text: "High stress levels", points: -8 },
+      { text: "Poor sleep quality", points: -12 },
+      { text: "Skipped meals", points: -6 },
+      { text: "Excessive caffeine", points: -5 }
+    ]
+  }
+];
+
+const RecoveryAssessment = () => {
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  
+  const [date, setDate] = useState<Date>(new Date());
+  const [selectedItems, setSelectedItems] = useState<Record<string, boolean>>({});
+  const [selectedSleepOption, setSelectedSleepOption] = useState<number | null>(null);
+  const [totalPoints, setTotalPoints] = useState(0);
+  const [showAnalysis, setShowAnalysis] = useState(false);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [analysisResult, setAnalysisResult] = useState('');
+  const [analysisError, setAnalysisError] = useState('');
+
+  const handleDateSelect = (newDate: Date | undefined) => {
+    if (!newDate) return;
+    
+    const today = new Date();
     today.setHours(0, 0, 0, 0); // Reset time to start of day
     
     const selectedDate = new Date(newDate);
