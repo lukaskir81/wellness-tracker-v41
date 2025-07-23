@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Layout from '@/components/Layout';
 import { Card } from '@/components/ui/card';
@@ -11,7 +10,7 @@ import { cn } from '@/lib/utils';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
 import AIAnalysisDialog from '@/components/AIAnalysisDialog';
-import { analyzeRecoveryData } from '@/services/geminiService';
+import { analyzeRecoveryData } from '@/services/geminiService'; // Assuming you have a Gemini service for this
 import { useAuth } from '@/contexts/AuthContext';
 import { firestoreService } from '@/lib/firestoreService';
 
@@ -22,7 +21,7 @@ const RecoveryAssessment = () => {
   const [date, setDate] = useState<Date>(new Date());
   const [totalPoints, setTotalPoints] = useState(0);
   const [selectedItems, setSelectedItems] = useState<Record<string, boolean>>({});
-  const [selectedSleepOption, setSelectedSleepOption] = useState<number | null>(null); // For tracking sleep radio selection
+  const [selectedSleepOption, setSelectedSleepOption] = useState<number | null>(null);
   const [isSaving, setIsSaving] = useState(false);
 
   // AI Analysis state
@@ -96,10 +95,10 @@ const RecoveryAssessment = () => {
     if (!newDate) return;
 
     const today = new Date();
-    today.setHours(0, 0, 0, 0); // Reset time to start of day
+    today.setHours(0, 0, 0, 0);
 
     const selectedDate = new Date(newDate);
-    selectedDate.setHours(0, 0, 0, 0); // Reset time to start of day
+    selectedDate.setHours(0, 0, 0, 0);
 
     if (selectedDate > today) {
       toast({
@@ -109,12 +108,10 @@ const RecoveryAssessment = () => {
       });
       return;
     }
-
     setDate(newDate);
   };
 
   const handleSleepSelection = (itemIndex: number, points: number) => {
-    // If same option is clicked, deselect it
     if (selectedSleepOption === itemIndex) {
       const sleepCategory = assessmentItems.find(item => item.category === "Sleep");
       if (sleepCategory && selectedSleepOption !== null) {
@@ -125,7 +122,6 @@ const RecoveryAssessment = () => {
       return;
     }
 
-    // Remove points from previously selected sleep option
     if (selectedSleepOption !== null) {
       const sleepCategory = assessmentItems.find(item => item.category === "Sleep");
       if (sleepCategory) {
@@ -133,14 +129,11 @@ const RecoveryAssessment = () => {
         setTotalPoints(prev => prev - previousPoints);
       }
     }
-
-    // Set new selection and add points
     setSelectedSleepOption(itemIndex);
     setTotalPoints(prev => prev + points);
   };
 
   const toggleItem = (category: string, itemIndex: number, points: number) => {
-    // Handle sleep category differently
     if (category === "Sleep") {
       handleSleepSelection(itemIndex, points);
       return;
@@ -156,7 +149,6 @@ const RecoveryAssessment = () => {
       newSelected[key] = true;
       setTotalPoints(prev => prev + points);
     }
-
     setSelectedItems(newSelected);
   };
 
@@ -164,73 +156,45 @@ const RecoveryAssessment = () => {
     if (!user) {
       toast({
         title: "Error",
-        description: "You must be logged in to save recovery assessments.",
+        description: "You must be logged in to save.",
         variant: "destructive"
       });
       return;
     }
-
     setIsSaving(true);
-    let saveSuccessful = false;
-    
     try {
-      const recoveryAssessment = {
+      const recoveryAssessmentToSave = {
         uid: user.uid,
         date: format(date, 'yyyy-MM-dd'),
         totalPoints,
-        selectedItems,
-        assessmentItems
       };
 
-      const result = await firestoreService.addRecoveryAssessment(recoveryAssessment);
-      
-      // If we get a result (document ID), the save was successful
-      if (result) {
-        saveSuccessful = true;
-      }
-    } catch (error: any) {
-      console.error('Error saving recovery assessment:', error);
-      
-      // For permission errors, the data might still have been saved
-      // This is a known Firebase behavior where writes can succeed despite permission errors
-      if (error?.code === 'permission-denied' || error?.code === 'failed-precondition') {
-        // Assume the save was successful if it's a permission error
-        // since the same pattern works for wellness entries
-        saveSuccessful = true;
-      } else {
-        // For other errors, show error message
-        toast({
-          title: "Error",
-          description: "Failed to save recovery assessment. Please try again.",
-          variant: "destructive"
-        });
-        setIsSaving(false);
-        return;
-      }
-    }
-    
-    // If save was successful (either normally or despite permission error)
-    if (saveSuccessful) {
+      await firestoreService.addRecoveryAssessment(recoveryAssessmentToSave);
+
       toast({
         title: "Success",
-        description: "Recovery assessment saved successfully!",
+        description: "Recovery score saved successfully!",
       });
-      
-      // Navigate to logs page
       navigate('/recovery-logs');
+    } catch (error) {
+      console.error('Error saving recovery assessment:', error);
+      toast({
+        title: "Save Failed",
+        description: "Could not save the score. Please check your connection and try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSaving(false);
     }
-    
-    setIsSaving(false);
   };
 
   const handleAnalyzeRecovery = async () => {
+     // This function can remain as is for local analysis before saving
     setShowAnalysis(true);
     setIsAnalyzing(true);
     setAnalysisError('');
     setAnalysisResult('');
-
     try {
-      // Create a comprehensive data structure including sleep selection
       const sleepCategory = assessmentItems.find(item => item.category === "Sleep");
       const recoveryData = {
         totalPoints,
@@ -265,7 +229,7 @@ const RecoveryAssessment = () => {
   return (
     <Layout title="Recovery Assessment" headerAction={headerAction}>
       <div className="space-y-4">
-        {/* Date Selection */}
+        {/* Date Selection Card */}
         <Card className="glass-dark p-3">
           <div className="flex items-center justify-between">
             <span className="text-white font-medium">Select Date</span>
@@ -295,7 +259,7 @@ const RecoveryAssessment = () => {
           </div>
         </Card>
 
-        {/* Target Points */}
+        {/* Target Points Card */}
         <Card className="glass-dark p-3">
           <p className="text-center text-green-400 text-sm">Accumulate at least 105 points in 24-36 hrs post-match/ heavy session.</p>
         </Card>
@@ -307,25 +271,21 @@ const RecoveryAssessment = () => {
               <span className="text-2xl">{category.icon}</span>
               <h3 className="text-white font-semibold text-lg">{category.category}</h3>
             </div>
-
             <div className="space-y-2">
               {category.items.map((item, itemIndex) => {
                 const key = `${category.category}-${itemIndex}`;
                 const isNegative = item.points < 0;
-
-                // For sleep category, use radio button logic
-                const isSelected = category.category === "Sleep" 
+                const isSelected = category.category === "Sleep"
                   ? selectedSleepOption === itemIndex
                   : selectedItems[key];
-
                 return (
                   <div
                     key={itemIndex}
                     className={cn(
                       "flex items-center justify-between p-2 rounded-lg cursor-pointer transition-all",
-                      isSelected 
-                        ? isNegative 
-                          ? "bg-red-500/20 border border-red-500/30" 
+                      isSelected
+                        ? isNegative
+                          ? "bg-red-500/20 border border-red-500/30"
                           : "bg-green-500/20 border border-green-500/30"
                         : "bg-white/5 hover:bg-white/10"
                     )}
@@ -333,30 +293,18 @@ const RecoveryAssessment = () => {
                   >
                     <div className="flex items-center gap-3">
                       {category.category === "Sleep" ? (
-                        // Radio button for sleep options
                         <div className={cn(
                           "w-5 h-5 rounded-full border-2 flex items-center justify-center",
-                          isSelected
-                            ? "bg-green-500 border-green-500"
-                            : "border-white/30"
+                          isSelected ? "bg-green-500 border-green-500" : "border-white/30"
                         )}>
-                          {isSelected && (
-                            <div className="w-2 h-2 rounded-full bg-white"></div>
-                          )}
+                          {isSelected && <div className="w-2 h-2 rounded-full bg-white"></div>}
                         </div>
                       ) : (
-                        // Checkbox for other categories
                         <div className={cn(
                           "w-5 h-5 rounded border-2 flex items-center justify-center",
-                          isSelected
-                            ? isNegative
-                              ? "bg-red-500 border-red-500"
-                              : "bg-green-500 border-green-500"
-                            : "border-white/30"
+                          isSelected ? (isNegative ? "bg-red-500 border-red-500" : "bg-green-500 border-green-500") : "border-white/30"
                         )}>
-                          {isSelected && (
-                            <span className="text-white text-xs">✓</span>
-                          )}
+                          {isSelected && <span className="text-white text-xs">✓</span>}
                         </div>
                       )}
                       <span className="text-white text-sm">{item.text}</span>
@@ -368,13 +316,6 @@ const RecoveryAssessment = () => {
                       )}>
                         {item.points > 0 ? '+' : ''}{item.points}
                       </span>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="w-6 h-6 text-white/60 hover:bg-white/10"
-                      >
-                        👍
-                      </Button>
                     </div>
                   </div>
                 );
@@ -383,7 +324,7 @@ const RecoveryAssessment = () => {
           </Card>
         ))}
 
-        {/* Total Points - Moved to bottom */}
+        {/* Total Points & Analyze Button Card */}
         <Card className="glass-dark p-4">
           <div className="flex items-center justify-between mb-3">
             <span className="text-white font-semibold text-lg">Recovery Score</span>
@@ -394,7 +335,7 @@ const RecoveryAssessment = () => {
               {totalPoints}
             </div>
           </div>
-          <Button 
+          <Button
             className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 mb-2"
             onClick={handleAnalyzeRecovery}
           >
@@ -403,20 +344,15 @@ const RecoveryAssessment = () => {
         </Card>
 
         {/* Submit Button */}
-        <Button 
+        <Button
           className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2"
           onClick={handleSaveAssessment}
           disabled={isSaving}
         >
           {isSaving ? 'Saving...' : '👍 Submit Assessment'}
         </Button>
-
-        {/* Advertisement Space */}
-        <Card className="glass-dark p-4 text-center">
-          <h3 className="text-white font-semibold mb-2">Advertisement Space</h3>
-          <p className="text-white/60 text-sm">Ad will be displayed here once configured.</p>
-        </Card>
       </div>
+
       <AIAnalysisDialog
         isOpen={showAnalysis}
         onClose={() => setShowAnalysis(false)}

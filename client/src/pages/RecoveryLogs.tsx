@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import Layout from '@/components/Layout';
 import { Card } from '@/components/ui/card';
@@ -8,7 +7,7 @@ import { cn } from '@/lib/utils';
 import { useAuth } from '@/contexts/AuthContext';
 import { firestoreService, RecoveryAssessment } from '@/lib/firestoreService';
 import { useToast } from '@/hooks/use-toast';
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 
 const RecoveryLogs = () => {
   const navigate = useNavigate();
@@ -19,30 +18,21 @@ const RecoveryLogs = () => {
 
   useEffect(() => {
     const loadRecoveryData = async () => {
-      if (!user) return;
-      
+      if (!user) {
+        setLoading(false);
+        return;
+      }
+
       try {
         const assessments = await firestoreService.getRecoveryAssessments(user.uid);
         setLogs(assessments);
-      } catch (error: any) {
+      } catch (error) {
         console.error('Error loading recovery assessments:', error);
-        
-        // Handle permission errors gracefully - similar to wellness logs
-        if (error?.code === 'permission-denied' || error?.code === 'failed-precondition') {
-          // For permission/precondition errors, just show a warning but don't block the UI
-          toast({
-            title: "Firebase Setup Needed",
-            description: "Some data might not load properly until Firebase security rules are configured.",
-            variant: "default"
-          });
-        } else {
-          // For other errors, show error message
-          toast({
-            title: "Error",
-            description: "Failed to load recovery assessments.",
-            variant: "destructive"
-          });
-        }
+        toast({
+          title: "Error",
+          description: "Failed to load recovery assessments. Please check your connection.",
+          variant: "destructive"
+        });
       } finally {
         setLoading(false);
       }
@@ -58,13 +48,6 @@ const RecoveryLogs = () => {
     if (score >= 60) return "bg-orange-500";
     return "bg-red-500";
   };
-
-  // Format the logs for display
-  const displayLogs = logs.map(log => ({
-    date: format(new Date(log.date), 'dd/MM/yyyy'),
-    score: log.totalPoints,
-    color: getScoreColor(log.totalPoints)
-  }));
 
   const headerAction = (
     <Button
@@ -85,22 +68,29 @@ const RecoveryLogs = () => {
               <span>Date</span>
               <span>Recovery Score</span>
             </div>
-            
+
             <div className="space-y-3">
               {loading ? (
                 <div className="text-center text-white/60 py-8">
                   Loading recovery assessments...
                 </div>
-              ) : displayLogs.length === 0 ? (
+              ) : logs.length === 0 ? (
                 <div className="text-center text-white/60 py-8">
                   No recovery assessments found. Complete your first assessment to see logs here.
                 </div>
               ) : (
-                displayLogs.map((log, index) => (
-                  <div key={index} className="flex items-center justify-between p-3 hover:bg-white/5 rounded-lg transition-colors">
-                    <span className="text-white">{log.date}</span>
-                    <div className={cn("px-4 py-2 rounded-lg text-white font-bold", log.color)}>
-                      {log.score}
+                logs.map((log) => (
+                  <div key={log.id} className="flex items-center justify-between p-3 hover:bg-white/5 rounded-lg transition-colors">
+                    {/* The date is formatted directly from the log data */}
+                    <span className="text-white">
+                      {format(parseISO(log.date), 'dd/MM/yyyy')}
+                    </span>
+                    {/* The score is displayed directly from the log data */}
+                    <div className={cn(
+                        "px-4 py-2 rounded-lg text-white font-bold", 
+                        getScoreColor(log.totalPoints)
+                    )}>
+                      {log.totalPoints}
                     </div>
                   </div>
                 ))

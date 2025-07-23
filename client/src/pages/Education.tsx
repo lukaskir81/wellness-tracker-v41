@@ -1,6 +1,8 @@
 import React from 'react';
-// Removed imports for Layout, Card, Button, and ExternalLink as they could not be resolved.
-// Replaced them with standard HTML elements and Tailwind CSS for styling.
+import Layout from '@/components/Layout';
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { ExternalLink } from 'lucide-react';
 
 const Education = () => {
   const educationalLinks = [{
@@ -29,30 +31,8 @@ const Education = () => {
     url: "https://www.gpc-performance.com/breathing-drills"
   }];
 
-  // Helper components to replace the missing UI library components
-  // This makes the component self-contained and avoids the build error.
-  const Card = ({ className, children, onClick }) => (
-    <div className={className} onClick={onClick}>
-      {children}
-    </div>
-  );
-
-  const Button = ({ className, children, onClick, size }) => (
-    <button className={className} onClick={onClick}>
-      {children}
-    </button>
-  );
-
-  const ExternalLink = ({ className }) => (
-    // Replaced the icon component with an emoji for simplicity and to remove dependency.
-    <span className={className}>↗️</span>
-  );
-
-
   return (
-    // Replaced Layout component with a standard div to remove the dependency.
-    <div title="Education" className="p-4 bg-[#0d1117] text-white min-h-screen">
-      <h1 className="text-2xl font-bold mb-4 text-white">Education</h1>
+    <Layout title="Education">
       <div className="space-y-4">
         <Card className="glass p-4 cursor-pointer hover:bg-white/10 transition-colors rounded-lg" onClick={() => window.open('https://www.gpc-performance.com/apexinfo', '_blank')}>
           <div className="flex items-center gap-3 mb-3">
@@ -115,7 +95,7 @@ const Education = () => {
           <p className="text-white/60 text-sm">Ad will be displayed here once configured.</p>
         </Card>
       </div>
-    </div>
+    </Layout>
   );
 };
 
