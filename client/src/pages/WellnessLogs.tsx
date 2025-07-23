@@ -24,13 +24,25 @@ const WellnessLogs = () => {
         // Sort entries by date (most recent first)
         const sortedEntries = entries.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
         setLogs(sortedEntries);
-      } catch (error) {
+      } catch (error: any) {
         console.error('Error loading wellness entries:', error);
-        toast({
-          title: "Error",
-          description: "Failed to load wellness entries.",
-          variant: "destructive"
-        });
+        
+        // Handle permission errors gracefully - data might still be available
+        if (error?.code === 'permission-denied' || error?.code === 'failed-precondition') {
+          // For permission/precondition errors, just show a warning but don't block the UI
+          toast({
+            title: "Firebase Setup Needed",
+            description: "Some data might not load properly until Firebase security rules are configured.",
+            variant: "default"
+          });
+        } else {
+          // For other errors, show error message
+          toast({
+            title: "Error",
+            description: "Failed to load wellness entries.",
+            variant: "destructive"
+          });
+        }
       } finally {
         setLoading(false);
       }
